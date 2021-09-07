@@ -1,0 +1,151 @@
+---
+title: "task_1"
+author: "praveen"
+date: "9/2/2021"
+output:
+  html_document: default
+  pdf_document: default
+---
+
+# THE SPARKS FOUNDADTION - TASK 1
+
+## Linear Regression
+
+  In this section we will see how the machine learning can be used to implement regression functions. We will start with simple linear regression involving two variables.
+
+## Simple Linear Regression
+
+  In this regression task we will predict the percentage of marks that a student is expected to score based upon the number of hours they studied. This is a simple linear regression task as it involves just two variables.
+
+
+## Importing all libraries required in this dataset
+
+      Load required packages
+        ggplots2 for create plot
+        tidyverse for data manipulation and visualization
+        ggpubr creates easily a pubication ready-plot
+            installed ggrepet for used ggpubr
+            
+```{r,warning=FALSE,message=FALSE}
+library(tidyverse)
+library(ggplot2)
+library(ggpubr)
+```
+
+## Load the datset by given the URL
+  Read the data sets that given for solving the problem.The given data set is based on students scores.
+  
+```{r}
+data_task1 = read.csv("http://bit.ly/w-data")
+data_task1
+```
+
+## To insepct the data sets
+
+  To view the upper row of given data sets
+  
+```{r}
+head(data_task1)
+```
+
+To check deatil of data set.
+
+```{r}
+summary(data_task1)
+```
+
+## Plotting the distribution of scores
+
+  The column names that I used for plotting or visualizing is hours vs scores
+  
+## Scatter plot
+  Create Scatter plot for the hours and scores.
+
+```{r}
+plot(data_task1$Hours,data_task1$Scores,main = " Hours vs Scores", xlab = "Hours", ylab = "Scores" , pch=19)
+```
+
+From the graph above, we can clearly see that there is a positive linear relation between the number of hours studied and percentage of score.
+
+
+```{r}
+
+```
+
+
+
+## Building traning amd testing data
+
+The next step is to divide the data into "attributes" (inputs) and "labels" (outputs).
+
+```{r}
+set.seed(123)
+id_task1 <- sample(1:nrow(data_task1),0.7*nrow(data_task1))
+id_train <- data_task1[id_task1,]
+id_test  <- data_task1[-id_task1,]
+
+```
+
+
+## linear Regression Model
+
+## Training the Algorithm
+We have split our data into training and testing sets, and now is finally the time to train our algorithm
+
+```{r}
+library(e1071)
+model_task1 <- lm(Scores~Hours , data = data_task1)
+summary(model_task1)
+```
+
+
+## Coefficients signifiance
+
+```{r}
+coefficients(model_task1)
+```
+
+
+
+```{r}
+plot(data_task1$Hours,data_task1$Scores,col="red",xlab = "Hours",ylab="Scores",main= "Scores Vs Hours")
+abline(model_task1)
+```
+
+
+## Making Predictions
+
+Now that we have trained our algorithm, it's time to make some predictions.
+
+```{r}
+y_pred <- predict(model_task1,id_test)
+y_pred
+```
+
+```{r}
+df = data.frame(id_test$Scores,y_pred)
+df
+```
+
+## You can also test with your own data
+
+```{r}
+newhours <- data.frame(Hours=9.25)
+predict_value <- predict(model_task1,newhours)
+print(paste("No of Hours = ",newhours))
+print(paste("Predicted Score = ",predict_value))
+```
+
+
+## Evaluating the model
+
+The final step is to evaluate the performance of algorithm. This step is particularly important to compare how well different algorithms perform on a particular dataset. For simplicity here, we have chosen the mean square error. There are many such metrics.
+
+```{r}
+mean(abs(id_test$Scores-y_pred))
+```
+
+
+
+
+
