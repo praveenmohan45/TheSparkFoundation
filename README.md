@@ -1,4 +1,4 @@
-# TheSparkFoundation-task_1
+# TheSparkFoundation-task_1 , task_2
 
 Data Science and Business Analytics Internship at The Sparks Foundation Task-1 
 (Predict the percentage of an student based on the no. of study hours) Using simple linear regression model, 
